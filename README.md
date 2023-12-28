@@ -17,10 +17,10 @@ steps:
     uses: thesis/valyrie-thread-action@v1
     with:
       threadName: 'v1.0'
-      channellName: 'release'
+      channelName: 'release'
       message: 'release notes'
-      webhookUrl: { { secrets.WEBHOOK_URL } }
-      webhookAuth: { { secrets.WEBHOOK_AUTH } }
+      webhookUrl: ${{ secrets.WEBHOOK_URL }}
+      webhookAuth: ${{ secrets.WEBHOOK_AUTH }}
 ```
 
 ## Initial Local Setup

@@ -5,8 +5,7 @@ inputs:
   threadName:
     description: 'The name of the thread.'
     required: true
-    default: 'release'
-  channellName:
+  channelName:
     description: 'The name of the channel to create the thread in.'
     required: true
   message:

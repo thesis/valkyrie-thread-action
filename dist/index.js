@@ -2753,26 +2753,32 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createThread = void 0;
 const core = __importStar(__nccwpck_require__(186));
+const getRequiredInput = (name) => core.getInput(name, { required: true });
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function createThread() {
     try {
-        const webhookUrl = core.getInput('webhookUrl');
-        const webhookAuth = core.getInput('webhookAuth');
-        await fetch(webhookUrl, {
+        const webhookUrl = getRequiredInput('webhookUrl');
+        const webhookAuth = getRequiredInput('webhookAuth');
+        const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
+                'Content-type': 'application/json',
                 Accept: 'application/json',
                 Authorization: webhookAuth
             },
             body: JSON.stringify({
-                channelName: core.getInput('channelName'),
-                title: core.getInput('threadName'),
-                message: core.getInput('message')
+                channelName: getRequiredInput('channelName'),
+                title: getRequiredInput('threadName'),
+                message: core.getInput('message'),
+                tagUser: '0'
             })
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         core.info('Thread created');
     }
     catch (error) {
