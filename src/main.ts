@@ -1,26 +1,35 @@
 import * as core from '@actions/core'
 
+const getRequiredInput = (name: string): string =>
+  core.getInput(name, { required: true })
+
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function createThread(): Promise<void> {
   try {
-    const webhookUrl: string = core.getInput('webhookUrl')
-    const webhookAuth: string = core.getInput('webhookAuth')
+    const webhookUrl = getRequiredInput('webhookUrl')
+    const webhookAuth = getRequiredInput('webhookAuth')
 
-    await fetch(webhookUrl, {
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
+        'Content-type': 'application/json',
         Accept: 'application/json',
         Authorization: webhookAuth
       },
       body: JSON.stringify({
-        channelName: core.getInput('channelName'),
-        title: core.getInput('threadName'),
-        message: core.getInput('message')
+        channelName: getRequiredInput('channelName'),
+        title: getRequiredInput('threadName'),
+        message: core.getInput('message'),
+        tagUser: '0'
       })
     })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
 
     core.info('Thread created')
   } catch (error) {
