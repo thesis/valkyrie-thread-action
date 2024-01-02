@@ -56,5 +56,5 @@ jobs:
         with:
           threadName: 'v1.0-test-action'
           channelName: 'bifrost'
-          webhookUrl: ${{ secrets.HUBOT_WEBHOOK_URl }}
+          webhookUrl: ${{ secrets.HUBOT_WEBHOOK_URL }}
           webhookAuth: ${{ secrets.HUBOT_WEBHOOK_AUTH }}
